@@ -1,2 +1,2 @@
 # skills
-Mad Skills
+Jiawei Ou's Skill repository
