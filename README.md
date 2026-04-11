@@ -12,4 +12,5 @@ npx skills@latest add ouj/skills/<skill-name>
 | Skill | Description |
 |-------|-------------|
 | [ask-me](ask-me/SKILL.md) | Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. |
+| [alignment](alignment/SKILL.md) | Align on a coding problem before implementation through codebase exploration, one-question-at-a-time clarification, approach comparison, diagrams, and an approved design spec. |
 | [brainstorm](brainstorm/SKILL.md) | Use before creative work: explore intent, requirements, and design through dialogue; propose approaches with trade-offs; present a design and get approval before any implementation. |

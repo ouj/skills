@@ -1,0 +1,4 @@
+interface:
+  display_name: "Alignment"
+  short_description: "Align on coding design before implementation"
+  default_prompt: "Use $alignment to explore the codebase, refine the idea one question at a time, compare approaches, and write an approved design spec before any implementation."
