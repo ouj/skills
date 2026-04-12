@@ -17,10 +17,17 @@ A stack has three parts:
 
 Prefer explicit local metadata over guesswork:
 
+- Required:
 - `stack.trunk=<branch>`
 - `branch.<name>.stackParent=<parent-branch>`
 
-Read those values first. If they are missing, infer a recommended parent from existing PR base branches or Git ancestry, state clearly that the result is inferred, and ask the user to confirm before any operation that would rewrite history or change PR bases.
+- Strongly recommended:
+- `stack.remote=<remote>`
+- `branch.<name>.stackParentRemoteRef=<remote>/<parent-branch>`
+
+Use `stack.trunk` and `branch.<name>.stackParent` as the authoritative stack metadata. Resolve PR state live through `gh` rather than storing PR metadata in branch config. Derive child branches by scanning local branches for matching `stackParent` values rather than storing child lists explicitly.
+
+Read those values first. If required values are missing, infer a recommended parent from existing PR base branches or Git ancestry, state clearly that the result is inferred, and ask the user to confirm before any operation that would rewrite history or change PR bases.
 
 ## Workflow
 
