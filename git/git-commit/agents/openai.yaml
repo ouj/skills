@@ -1,4 +1,0 @@
-interface:
-  display_name: "Git Commit"
-  short_description: "Commit carefully without pushing"
-  default_prompt: "Use $git-commit to inspect my changes, stage only the intended files, and create a safe local commit."
