@@ -31,7 +31,6 @@ If required metadata is missing, infer a recommended parent from Git ancestry or
 - Handle dirty trees deliberately: if the worktree is dirty, decide whether branch switching or rebasing is safe before continuing.
 - Resolve conflicts automatically when the correct result is clear from local context and stack intent; otherwise stop and report the blocker.
 - Treat merged parents specially: retarget the child to the next surviving parent or trunk, then restack.
-- Keep scope tight: do not expand casually into commands such as `absorb`, `freeze`, `split`, `reorder`, `unlink`, or `undo`.
 
 ## Commands
 
