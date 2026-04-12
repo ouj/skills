@@ -31,18 +31,68 @@ If required metadata is missing, infer a recommended parent from Git ancestry or
 - Handle dirty trees deliberately: if the worktree is dirty, decide whether branch switching or rebasing is safe before continuing.
 - Resolve conflicts automatically when the correct result is clear from local context and stack intent; otherwise stop and report the blocker.
 - Treat merged parents specially: retarget the child to the next surviving parent or trunk, then restack.
-- Keep scope tight: do not expand casually into commands such as `absorb`, `freeze`, `split`, `reorder`, `unlink`, or `undo`.
+- If a branch's remote PR is closed or merged, ask whether the local branch should be deleted before cleaning it up.
+- Recommend performing large stack work in a subagent or separate branch when practical so the active thread context stays focused.
 
 ## Commands
 
-- `stack track`: record or repair `stack.trunk` and `branch.<name>.stackParent`.
-- `stack log`: show stack order, parent relationships, and live PR status.
-- `stack create`: create a child branch from the current branch, generate the commit message from the staged diff, create the commit, and record the current branch as parent.
-- `stack restack`: rebase descendants in parent-to-child order so each branch includes its parent tip.
-- `stack move`: change a branch's parent, then restack that branch and its descendants.
-- `stack squash`: rewrite the current branch into one commit on top of its parent, with a commit message derived from the full branch diff against that parent.
-- `stack submit`: push changed branches, create or update one PR per branch with base = parent branch, and ask whether PR title and description should be refreshed before updating them.
-- `stack sync`: fetch remote trunk, rebase the bottom branch on trunk, then restack upward.
+### `stack track`
+
+1. Resolve trunk, remote, current branch, and intended parent.
+2. Write or repair `stack.trunk` and `branch.<name>.stackParent`.
+3. Write strongly recommended remote metadata when known.
+4. Verify the parent chain is not self-referential or cyclic.
+
+### `stack log`
+
+1. Read stack metadata for all local branches.
+2. Derive parent-child relationships from `stackParent`.
+3. Resolve live PR state through `gh`.
+4. Present stack order, parents, and PR status.
+
+### `stack create`
+
+1. Capture the source branch as the intended parent.
+2. Create the child branch from that source branch.
+3. Generate a commit message from the staged diff.
+4. Create the commit.
+5. Record the source branch explicitly as the new branch's parent.
+
+### `stack restack`
+
+1. Resolve the branch graph from parent metadata.
+2. Find descendants of the selected branch in parent-to-child order.
+3. Rebase each child onto its recorded parent.
+4. Resolve conflicts automatically when the correct result is clear; otherwise stop and report the blocker.
+
+### `stack move`
+
+1. Resolve the branch's current parent and intended new parent.
+2. Update the branch's parent metadata.
+3. Restack that branch onto the new parent.
+4. Restack descendants in parent-to-child order.
+
+### `stack squash`
+
+1. Resolve the current branch's parent.
+2. Compute the full branch diff against that parent.
+3. Rewrite the branch into a single commit on top of the parent.
+4. Generate the new commit message from the squashed diff.
+
+### `stack submit`
+
+1. Resolve each branch's parent branch and existing PR state through `gh`.
+2. Ask whether PR title and description should be refreshed.
+3. Generate or refresh PR content from the branch diff against the parent branch when requested.
+4. Push each branch with base = parent branch.
+5. Create or update one PR per branch.
+
+### `stack sync`
+
+1. Fetch the remote trunk.
+2. Rebase the bottom branch onto trunk.
+3. Restack the branches above it in parent-to-child order.
+4. Resolve conflicts automatically when the correct result is clear; otherwise stop and report the blocker.
 
 ## Content Generation
 
