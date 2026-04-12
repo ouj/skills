@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Sync"
+  short_description: "Rebase a branch onto the latest main safely"
+  default_prompt: "Use $git-sync to rebase my current feature branch onto the latest remote default branch and push it safely."
