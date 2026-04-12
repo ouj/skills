@@ -1,5 +1,5 @@
-# skills
-Jiawei Ou's Skill repository
+# Skills
+My commonplace book for skills. No skill issues.
 
 ## Installation
 
