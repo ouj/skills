@@ -32,6 +32,7 @@ If required metadata is missing, infer a recommended parent from Git ancestry or
 - Resolve conflicts automatically when the correct result is clear from local context and stack intent; otherwise stop and report the blocker.
 - Treat merged parents specially: retarget the child to the next surviving parent or trunk, then restack.
 - If a branch's remote PR is closed or merged, ask whether the local branch should be deleted before cleaning it up.
+- Recommend performing large stack work in a subagent or separate branch when practical so the active thread context stays focused.
 
 ## Commands
 
