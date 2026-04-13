@@ -1,6 +1,6 @@
 ---
 name: pr-stack
-description: Manage stacked pull requests on top of plain git and GitHub CLI. Use when the user wants to create, inspect, restack, move, submit, or sync a stack of dependent branches and PRs while tracking parent branches explicitly and avoiding unsafe history rewrites.
+description: Manage stacked pull requests on top of plain git and GitHub CLI. Use when the user wants to create, inspect, restack, move, retarget, submit, or sync a stack of dependent branches and PRs while tracking parent branches explicitly, keeping each GitHub PR based on its recorded parent branch, and avoiding unsafe history rewrites.
 ---
 
 # PR Stack
@@ -22,6 +22,8 @@ Track stack relationships explicitly:
 
 Use `stack.trunk` and `branch.<name>.stackParent` as the source of truth. Resolve PR state live through `gh`. Derive children by scanning branches for matching `stackParent` values.
 
+Treat GitHub PR bases as derived state that must match the recorded parent chain. In a healthy stack, each branch PR targets its previous branch in the stack, except the bottom branch which targets trunk.
+
 If required metadata is missing, infer a recommended parent from Git ancestry or existing PR bases, mark it as inferred, and ask the user to confirm before any operation that would rewrite history or change PR bases.
 
 ## Rules
@@ -31,6 +33,7 @@ If required metadata is missing, infer a recommended parent from Git ancestry or
 - Handle dirty trees deliberately: if the worktree is dirty, decide whether branch switching or rebasing is safe before continuing.
 - Resolve conflicts automatically when the correct result is clear from local context and stack intent; otherwise stop and report the blocker.
 - Treat merged parents specially: retarget the child to the next surviving parent or trunk, then restack.
+- Repair PR base drift explicitly: during submit or retarget flows, update every existing GitHub PR base to the recorded parent branch, even if the PR already exists and even if only one branch's commits changed.
 - If a branch's remote PR is closed or merged, ask whether the local branch should be deleted before cleaning it up.
 - Recommend performing large stack work in a subagent or separate branch when practical so the active thread context stays focused.
 
@@ -84,8 +87,17 @@ If required metadata is missing, infer a recommended parent from Git ancestry or
 1. Resolve each branch's parent branch and existing PR state through `gh`.
 2. Ask whether PR title and description should be refreshed.
 3. Generate or refresh PR content from the branch diff against the parent branch when requested.
-4. Push each branch with base = parent branch.
-5. Create or update one PR per branch.
+4. Push each branch.
+5. Create missing PRs with base = parent branch.
+6. Update every existing PR base branch to the resolved parent branch so the full stack tracks the previous branch correctly.
+7. Refresh PR title and body when requested.
+
+### `stack retarget`
+
+1. Resolve the selected branch set in stack order, including each recorded parent.
+2. Compare every existing GitHub PR base branch to its resolved parent branch.
+3. Update any mismatched PR base branch so each PR targets the previous branch in the stack.
+4. Report which PRs changed and which were already correct.
 
 ### `stack sync`
 
@@ -99,12 +111,13 @@ If required metadata is missing, infer a recommended parent from Git ancestry or
 - Generate commit messages from the staged diff or squashed branch diff, not from branch names or prior commit subjects.
 - Generate PR title and body from the branch diff against the parent branch.
 - If the branch has multiple commits, summarize the branch holistically instead of mirroring the commit list.
-- During `stack submit`, set each PR base branch to the resolved parent branch.
-- Before updating an existing PR during `stack submit`, ask whether the PR title and description should be refreshed; if yes, regenerate them from the current branch diff.
+- During `stack submit`, create missing PRs first, then explicitly update every submitted PR base branch to the resolved parent branch.
+- Before updating an existing PR during `stack submit`, ask whether the PR title and description should be refreshed; if yes, regenerate them from the current branch diff after base branches are corrected.
 
 ## Output Expectations
 
 - Report the trunk branch, current branch, resolved parent, and whether parentage was explicit or inferred.
 - Report which branches were restacked, squashed, moved, pushed, or submitted.
+- Report which PR base branches were changed, skipped as already correct, or could not be updated.
 - Include PR URLs when created or updated.
 - Call out conflicts, blocked rebases, or metadata inconsistencies explicitly.

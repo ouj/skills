@@ -1,4 +1,4 @@
 interface:
   display_name: "PR Stack"
-  short_description: "Manage stacked PR branches without Graphite"
-  default_prompt: "Use $pr-stack to inspect, restack, and submit a stack of dependent GitHub pull requests without Graphite."
+  short_description: "Manage stacked PRs and retarget their base branches"
+  default_prompt: "Use $pr-stack to inspect, restack, retarget, and submit a stack of dependent GitHub pull requests so each PR tracks its recorded parent branch without Graphite."
