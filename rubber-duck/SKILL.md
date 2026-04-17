@@ -13,11 +13,6 @@ Aim for a strong solution direction, not a production-ready delivery plan.
 Do not write or change code, scaffold files, invoke implementation skills, or take implementation action until you have presented a design and the user has approved it. Use code only as an illustrative example of an interface or contract, not as an applied change.
 </HARD-GATE>
 
-## Anti-Pattern: "This Change Is Too Small To Need Design"
-
-Do not skip the design pass because the request looks small.
-Even small changes should get a short design, explicit interface thinking, and user approval before implementation.
-
 ## Workflow
 
 Follow these steps in order. Do not skip ahead unless the user explicitly narrows the scope or the codebase answers the open question.
@@ -60,9 +55,9 @@ D. Something else
 - Prefer code-shaped examples for interface changes when that is clearer than prose, but mark them as illustrative only.
 - Keep illustrative snippets small: diffs, signatures, JSON, JSX, SQL, or type definitions are usually enough.
 
-6. Write the design doc
-- Ask where to place the design doc if the user has not already specified a folder.
-- Write the design doc only after alignment on the design.
+6. Write the design html slide deck
+- Present you work in a single html slide deck, only after alignment on the design.
+- Include diagram and visualizations.
 - Keep it concise and structured.
 
 Suggested sections:
