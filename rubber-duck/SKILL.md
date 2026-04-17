@@ -34,11 +34,12 @@ Use this format:
 A. Recommended - ...
 B. ...
 C. ...
-D. Something else
+...
 
 3. Propose approaches
 - Present 2-3 viable approaches.
 - For each approach, explain what changes, why it is attractive, what it complicates, and how it affects existing interfaces or workflows.
+- Also allow freeform input outside proposed approaches.
 - Lead with the recommended approach.
 - Prefer the smallest change that cleanly solves the problem.
 - Apply YAGNI aggressively. Remove features, cases, and moving parts that are not required.
