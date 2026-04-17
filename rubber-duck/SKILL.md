@@ -57,7 +57,7 @@ C. ...
 - Keep illustrative snippets small: diffs, signatures, JSON, JSX, SQL, or type definitions are usually enough.
 
 6. Write the design html slide deck
-- Present you work in a single html slide deck, only after alignment on the design.
+- After alignment on the design, pesent the design spec in a single html deck. 
 - Include diagram and visualizations.
 - Keep it concise and structured.
 
