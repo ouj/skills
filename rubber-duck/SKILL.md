@@ -56,8 +56,8 @@ C. ...
 - Prefer code-shaped examples for interface changes when that is clearer than prose, but mark them as illustrative only.
 - Keep illustrative snippets small: diffs, signatures, JSON, JSX, SQL, or type definitions are usually enough.
 
-6. Write the design html slide deck
-- After alignment on the design, pesent the design spec in a single html deck. 
+6. Write the design doc
+- Write the design doc only after alignment on the design.
 - Include diagram and visualizations.
 - Keep it concise and structured.
 
