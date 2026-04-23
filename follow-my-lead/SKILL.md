@@ -14,8 +14,8 @@ Be thorough: carry the work through implementation, migration updates, interface
 ## Workflow
 
 1. Inspect the current branch and working tree first.
-2. Infer intent from the existing artifacts instead of asking broad open questions.
-3. Stop and ask lettered multiple-choice questions when ambiguity blocks a safe implementation.
+2. Read surrounding code to understand the local architecture, conventions, and unfinished edges around the changed files.
+3. Infer the most likely intent from the existing artifacts, then confirm that intent with the user through lettered multiple-choice questions before asking any open-ended question.
 4. Align on a concrete plan before making file edits.
 5. Implement the change end-to-end.
 6. Repair or update broken existing tests.
@@ -43,6 +43,14 @@ Then read the actual changed files. Prioritize:
 - Files with TODOs, placeholders, failing tests, schema changes, migrations, or interface text
 - Nearby tests, configs, and type definitions
 
+After reading the changed files, read enough surrounding code to understand:
+
+- The module's public surface and call sites
+- Adjacent types, helpers, and data flow
+- Existing patterns that the partial change is trying to follow
+- Nearby migrations, schemas, or contracts that constrain the implementation
+- The nearest tests that describe expected behavior
+
 Infer intent from concrete signals:
 
 - Branch name
@@ -58,6 +66,8 @@ Do not treat the current diff as correct. Treat it as the strongest clue about d
 ## Ask Only When Needed
 
 Ask clarifying questions only when the current branch state leaves multiple materially different implementations plausible.
+
+Start with intent-alignment questions. Do not begin with open-ended questions if the ambiguity can be framed as concrete choices derived from the branch and surrounding code.
 
 When you ask, use multiple-choice options with recommendations:
 
@@ -76,6 +86,7 @@ Rules:
 - Keep options mutually exclusive.
 - Prefer one blocking question at a time.
 - Base the options on evidence from the diff, not generic brainstorming.
+- Ask open-ended questions only after the user rejects the provided choices or when the needed information genuinely cannot be reduced to concrete options.
 
 ## Align On A Plan Before Editing
 
