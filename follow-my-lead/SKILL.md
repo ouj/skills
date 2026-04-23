@@ -7,7 +7,7 @@ description: Finish an in-progress code change by reading the current git branch
 
 ## Overview
 
-Read the branch and working tree before proposing solutions. Infer the user's likely destination from the existing diff, then align on a concrete plan before editing anything.
+Read the branch and working tree before proposing solutions. Infer the user's likely destination from the existing diff, confirm that inferred intent with the user, then align on a concrete plan before editing anything.
 
 Be thorough: carry the work through implementation, migration updates, interface changes, and broken-test repair unless the user limits scope.
 
@@ -63,11 +63,15 @@ Infer intent from concrete signals:
 
 Do not treat the current diff as correct. Treat it as the strongest clue about direction.
 
-## Ask Only When Needed
+## Confirm Intent First
 
-Ask clarifying questions only when the current branch state leaves multiple materially different implementations plausible.
+Before editing, confirm the inferred intent with the user.
 
-Start with intent-alignment questions. Do not begin with open-ended questions if the ambiguity can be framed as concrete choices derived from the branch and surrounding code.
+Start with intent-alignment questions. Do not begin with open-ended questions if the branch and surrounding code let you frame concrete choices.
+
+If the direction is ambiguous, present materially different implementations as options.
+
+If one direction is strongly supported by the artifacts, still present a recommended option plus nearby alternatives so the user can confirm or redirect the work.
 
 When you ask, use multiple-choice options with recommendations:
 
@@ -108,7 +112,7 @@ Plan
 4. Repair the existing failing tests that still assert the old contract.
 ```
 
-Do not start editing until the user agrees when the skill is invoked in an ambiguous situation or explicitly asks for plan-first collaboration.
+Do not start editing until the user agrees to the plan.
 
 ## Prefer Code Over Natural-Language Change Descriptions
 
