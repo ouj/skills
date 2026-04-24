@@ -15,11 +15,12 @@ Be thorough: carry the work through implementation, migration updates, interface
 
 1. Inspect the current branch and working tree first.
 2. Read surrounding code to understand the local architecture, conventions, and unfinished edges around the changed files.
-3. Infer the most likely intent from the existing artifacts, then confirm that intent with the user through lettered multiple-choice questions before asking any open-ended question.
-4. Align on a concrete plan before making file edits.
-5. Implement the change end-to-end.
-6. Repair or update broken existing tests.
-7. Ask before adding any new tests.
+3. Lint, typecheck, or compile the code to see what is broken to discover the missing pieces and mismatched interfaces.
+4. Infer the most likely intent from the existing artifacts, then confirm that intent with the user through lettered multiple-choice questions before asking any open-ended question.
+5. Align on a concrete plan before making file edits.
+6. Implement the change end-to-end.
+7. Repair or update broken existing tests.
+8. Ask before adding any new tests.
 
 ## Inspect The Branch
 
