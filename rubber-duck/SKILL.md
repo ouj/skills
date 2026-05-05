@@ -25,6 +25,8 @@ Follow these steps in order. Do not skip ahead unless the user explicitly narrow
 2. Ask clarifying questions
 - Ask one question per message.
 - Always use lettered multiple-choice options.
+- When the host agent provides a dedicated tool for asking the user a structured question, use that tool instead of plain chat text. Examples: Codex `request_user_input` or Claude Code `AskUserQuestion`.
+- If no such tool is available, ask in plain chat using the same structure.
 - Include a recommended option and a short reason.
 - Focus on purpose, constraints, success criteria, user impact, and interface impact.
 - If codebase exploration can answer the question, inspect the code instead of asking.
