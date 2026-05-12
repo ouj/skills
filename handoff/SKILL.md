@@ -26,7 +26,7 @@ The handoff should preserve decisions, current state, blockers, and the next use
 3. Create the output path with:
 
 ```bash
-mktemp -t handoff-XXXXXX.md
+d=$(mktemp -d) && touch "$d/handoff.md" && echo "$d/handoff.md"
 ```
 
 4. Read the newly created file before writing to it.
