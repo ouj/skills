@@ -1,0 +1,4 @@
+interface:
+  display_name: "Replay Handoff"
+  short_description: "Create a clean redo handoff from a branch"
+  default_prompt: "Use $replay-handoff to analyze my current branch against the default branch and write a concise redo handoff for a clean rebuild."

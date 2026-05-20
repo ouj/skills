@@ -14,4 +14,5 @@ npx skills@latest add ouj/skills/<skill-name>
 |-------|-------------|
 | [handoff](handoff/SKILL.md) | Compact the current conversation into a handoff document for another agent to pick up. |
 | [pr-stack](pr-stack/SKILL.md) | Manage stacked pull requests on top of plain git and GitHub CLI, including tracking parent branches, restacking descendants, retargeting PR bases, and syncing a stack safely. |
+| [replay-handoff](replay-handoff/SKILL.md) | Analyze an in-progress branch and write a concise redo handoff for a clean rebuild from the default branch. |
 | [rubber-duck](rubber-duck/SKILL.md) | Collaborative design partner for coding problems and interface changes that inspects the codebase, asks one question at a time, compares approaches, and writes a design doc before implementation. |
