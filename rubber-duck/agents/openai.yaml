@@ -1,4 +1,4 @@
 interface:
   display_name: "Rubber Duck"
-  short_description: "Explore designs before implementation"
-  default_prompt: "Use $rubber-duck to compare options and draft a design before implementing anything."
+  short_description: "Design and compare solutions before coding"
+  default_prompt: "Use $rubber-duck to inspect the current system, compare approaches, and produce a design for my approval before implementation."

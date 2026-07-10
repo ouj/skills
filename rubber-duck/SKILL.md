@@ -1,105 +1,105 @@
 ---
 name: rubber-duck
-description: Collaborative design partner for coding problems, system design, bug fixes, and interface changes. Use when Codex should inspect the current project first, ask lettered multiple-choice questions one at a time, compare 2-3 clean solution approaches, draw before-and-after system interactions, and write a design doc before any implementation begins. Keep the focus on elegant interfaces and trade-offs, not production readiness, rollout, testing, or metrics.
+description: Design-first collaboration for coding changes, bug fixes, system design, and interface changes. Use when the user asks to rubber-duck a problem, think through a change before coding, compare solution approaches, or produce a design or specification before implementation. Inspect existing context, clarify consequential decisions, define interfaces and boundaries, and require explicit design approval before implementation.
 ---
 
 # Rubber Duck
 
-Explore an idea until it becomes a clean, minimal, well-structured design.
-Prefer simplicity, elegance, small change surfaces, and interface clarity over implementation detail.
-Aim for a strong solution direction, not a production-ready delivery plan.
+Turn an ambiguous change into a minimal, coherent design grounded in the existing system.
 
 <HARD-GATE>
-Do not write or change code, scaffold files, invoke implementation skills, or take implementation action until you have presented a design and the user has approved it. Use code only as an illustrative example of an interface or contract, not as an applied change.
+Do not modify code, scaffold implementation files, or take implementation action until the user explicitly approves the proposed design. Read-only exploration and writing a design document are allowed. Treat code snippets as illustrative contracts only.
+
+After approval, implement only if the user has requested implementation, either initially or after reviewing the design. Otherwise, stop at the approved specification.
 </HARD-GATE>
+
+## Principles
+
+- Prefer the smallest change that cleanly solves the stated problem.
+- Preserve existing patterns unless they materially obstruct the design.
+- Make boundaries, dependencies, and interfaces explicit.
+- Apply YAGNI; exclude unrelated cases and refactors.
+- Scale the ceremony to the complexity of the change.
+- Exclude testing, rollout, metrics, monitoring, and operational planning unless the user requests them.
 
 ## Workflow
 
-Follow these steps in order. Do not skip ahead unless the user explicitly narrows the scope or the codebase answers the open question.
+### 1. Inspect the context
 
-1. Explore project context
-- Inspect relevant files, docs, and recent commits before asking detailed questions.
-- Summarize the current system briefly: important components, relevant interfaces, existing constraints, and patterns worth preserving.
-- If the request is too broad, decompose it into smaller sub-problems and guide the user toward designing one slice at a time.
+- Inspect relevant code, documentation, interfaces, and configuration.
+- Inspect recent history only when it helps explain the current design or constraints.
+- If no project context exists, state the assumptions being used.
+- Summarize the relevant components, boundaries, constraints, and patterns worth preserving.
+- Narrow an overly broad request to one coherent design slice.
 
-2. Ask clarifying questions
-- Ask one question per message.
-- Always use lettered multiple-choice options.
-- When the host agent provides a dedicated tool for asking the user a structured question, use that tool instead of plain chat text. Examples: Codex `request_user_input` or Claude Code `AskUserQuestion`.
-- If no such tool is available, ask in plain chat using the same structure.
-- Include a recommended option and a short reason.
-- Focus on purpose, constraints, success criteria, user impact, and interface impact.
-- If codebase exploration can answer the question, inspect the code instead of asking.
+### 2. Clarify consequential decisions
 
-Use this format:
+- Ask only questions whose answers could materially change the design.
+- Ask one question at a time.
+- Do not ask questions that project exploration can answer.
+- Use the host's structured-input tool when available.
+- Otherwise, provide lettered choices with the recommended option first and accept free-form input.
 
-A. Recommended - ...
-B. ...
-C. ...
-...
+Use this chat format:
 
-3. Propose approaches
-- Present 2-3 viable approaches.
-- For each approach, explain what changes, why it is attractive, what it complicates, and how it affects existing interfaces or workflows.
-- Also allow freeform input outside proposed approaches.
-- Lead with the recommended approach.
-- Prefer the smallest change that cleanly solves the problem.
-- Apply YAGNI aggressively. Remove features, cases, and moving parts that are not required.
-- Explore alternative branches when the user wants to compare directions before deciding.
+A. Recommended — option and short reason  
+B. Alternative — trade-off  
+C. Alternative — trade-off
 
-4. Align on the current system
-- Explain the relevant change surfaces and system boundaries before describing the new design.
-- Draw a "before" interaction diagram when the system has more than one component or boundary.
-- Use Mermaid when it improves clarity.
+### 3. Explain the current system
 
-5. Align on the new system
-- Show the "after" interaction diagram.
-- Call out interface changes explicitly: UI states, API contracts, props, events, routes, schema fields, config shape, CLI flags, or cross-service messages.
-- Prefer code-shaped examples for interface changes when that is clearer than prose, but mark them as illustrative only.
-- Keep illustrative snippets small: diffs, signatures, JSON, JSX, SQL, or type definitions are usually enough.
+- Identify the change surfaces and system boundaries before proposing solutions.
+- Use a “before” diagram only when multiple components or interactions would be clearer visually.
 
-6. Write the design doc
-- Write the design doc only after alignment on the design.
-- Include diagram and visualizations.
-- Keep it concise and structured.
+### 4. Compare approaches
 
-Suggested sections:
+Present two or three materially distinct, viable approaches. If only one approach is credible, say so instead of inventing alternatives.
+
+For each approach, explain:
+
+- What changes
+- Why it is attractive
+- What it complicates
+- How it affects existing interfaces or workflows
+
+Lead with the recommended approach and allow the user to suggest another direction.
+
+### 5. Define the proposed design
+
+After the user selects or accepts a direction:
+
+- Describe responsibilities, boundaries, dependencies, and user-visible behavior.
+- Call out interface changes explicitly, including relevant UI states, APIs, props, events, routes, schemas, configuration, CLI flags, or cross-service messages.
+- Use small, clearly marked illustrative snippets when they clarify a contract.
+- Use an “after” diagram when it materially clarifies a multi-component interaction.
+
+For complex designs, align on uncertain sections incrementally. Avoid repeated approval checkpoints when one final review is sufficient.
+
+### 6. Write and review the specification
+
+Produce a concise specification containing only the sections needed from:
+
 - Problem
-- Goals
-- Non-goals
+- Goals and non-goals
 - Current state
 - Approaches considered
 - Recommended design
-- Before diagram
-- After diagram
+- Before and after diagrams
 - Interface changes
 - Open questions and trade-offs
 
-7. Self-review the spec
-- Check for placeholders.
-- Check for contradictions between sections.
-- Check for ambiguous wording such as "simple", "fast", or "better" without measurable meaning.
-- Check that scope is minimal and matches the approved design.
-- Check that interface changes are called out explicitly.
-- Check that the spec stays focused on behavior, interfaces, and trade-offs rather than implementation detail or delivery planning.
-- Fix issues inline before presenting the final spec.
+Before presenting it:
 
-## Design Boundaries
+- Remove placeholders and contradictions.
+- Replace vague terms with observable behavior.
+- Verify that the scope matches the selected approach.
+- Verify that every interface change is explicit.
+- Remove implementation and delivery detail that the user did not request.
 
-- Break the system into units with one clear purpose.
-- Prefer boundaries with explicit interfaces and understandable dependencies.
-- Be able to explain what each unit does, how it is used, and what it depends on without diving into internals.
-- If a boundary is hard to explain cleanly, simplify the design before moving forward.
+Present the specification in chat unless the user requests a file.
 
-## Working Style
+### 7. Request approval
 
-- Keep the conversation collaborative and natural, but disciplined.
-- Present the design in sections when the problem is complex and get explicit approval after each substantial section before moving on.
-- Prefer interface and user-visible behavior over low-level implementation detail.
-- Use code examples to explain contracts and interactions when that is clearer than prose.
-- Stay grounded in the existing codebase and patterns.
-- If the current codebase has local structural issues that materially affect the design, include small targeted improvements in the design.
-- Do not propose unrelated refactors.
-- Do not spend time on tests, rollout plans, metrics, monitoring, or operational readiness unless the user explicitly asks for them.
-- Keep the discussion centered on behavior, interfaces, boundaries, and trade-offs.
-- After the user approves the design, stop at the spec unless the user explicitly asks to move into implementation.
+Ask the user to approve the final design or identify changes.
+
+Do not begin implementation without explicit approval. If the user already approved a materially identical final design, do not require redundant approval.
