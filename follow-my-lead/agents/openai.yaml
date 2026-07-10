@@ -1,4 +1,4 @@
 interface:
   display_name: "Follow My Lead"
-  short_description: "Finish work from my current diff"
-  default_prompt: "Use $follow-my-lead to inspect my current branch and uncommitted changes, align on a plan, then finish the implementation."
+  short_description: "Finish work from your current branch"
+  default_prompt: "Use $follow-my-lead to inspect my current branch and partial changes, infer the intended destination, get my approval on a completion plan, then finish and validate the work without disturbing unrelated edits."
