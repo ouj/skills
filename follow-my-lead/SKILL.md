@@ -1,6 +1,6 @@
 ---
 name: follow-my-lead
-description: Continue partial code work only far enough for the relevant compile, typecheck, or existing tests to pass. Use when the user asks an agent to pick up staged, unstaged, untracked, or locally committed work and minimally repair it without completing the broader feature. Inspect the branch, identify the narrow validation target, confirm the inferred intent with one yes-or-no question, then make the smallest necessary changes while preserving unrelated work.
+description: Continue partial code work only far enough for the relevant compile, typecheck, or existing tests to pass. Use when the user asks an agent to pick up staged, unstaged, untracked, or locally committed work and minimally repair it without completing the broader feature. Inspect the branch, identify the narrow validation target, confirm the inferred intent with one yes-or-no question, then make the smallest necessary changes while preserving unrelated work and asking before changing tests or refactoring adjacent code.
 ---
 
 # Follow My Lead
@@ -10,7 +10,7 @@ Make the user’s work in progress green. Do not turn it into a complete feature
 <HARD-GATE>
 Before modifying files, inspect the existing work, identify the narrow validation target, and ask the user to confirm the inferred intent.
 
-After confirmation, proceed without generating a plan or specification. Ask again only if passing the confirmed validation target requires a material expansion of scope.
+After confirmation, proceed without generating a plan or specification. Ask again only if passing the confirmed validation target requires a material expansion of scope or an ask-first change defined below.
 </HARD-GATE>
 
 ## Scope
@@ -36,10 +36,23 @@ Do not complete the broader feature unless the user explicitly requests it.
 - Make the smallest change that satisfies the confirmed validation target.
 - Preserve staged, unstaged, untracked, and unrelated user changes.
 - Follow failures only as far as necessary to make the target pass.
-- Do not add features, refactor adjacent code, or perform speculative cleanup.
-- Do not add new tests unless the user explicitly requests them.
-- Do not weaken or remove existing tests merely to make them pass.
+- Do not add features or perform speculative cleanup.
+- Do not assume existing tests must remain unchanged; they may need to change with the confirmed intent.
+- Do not weaken or remove tests merely to conceal an implementation defect.
 - Distinguish failures caused by the current work from unrelated baseline failures.
+
+## Ask-first changes
+
+Even after the user confirms the intent, explain why the validation target cannot pass without the proposed action and ask one yes-or-no question before:
+
+- Refactoring adjacent code
+- Adding a new test
+- Modifying an existing test
+- Weakening or removing an existing test
+
+State the smallest proposed change. For a test change, say explicitly whether it adds, modifies, weakens, or removes coverage. Do not bundle unrelated ask-first changes into one approval.
+
+If approved, make only the change required by the confirmed intent and validation target.
 
 ## Workflow
 
@@ -112,11 +125,17 @@ After confirmation:
 - Fix only errors required by the validation target.
 - Modify only the necessary files and interfaces.
 - Propagate type or contract changes only as far as compilation requires.
-- Update existing tests only when the confirmed intent clearly changes their expected behavior.
+- Treat test changes as eligible repairs when the confirmed intent changes expected behavior or coverage must move with the code.
 - Preserve incomplete work that does not block validation.
 - Avoid migrations, documentation, cleanup, and additional wiring unless the target directly requires them.
 
 Do not request separate approval for routine fixes inside the confirmed scope.
+
+If the repair requires an ask-first change, pause before making it. For example:
+
+```text
+The existing save-flow test asserts the old synchronous behavior. Should I update it to assert the confirmed async behavior?
+```
 
 If passing the target requires a behavior decision or materially broader work, stop and ask a concise yes-or-no question before proceeding.
 
